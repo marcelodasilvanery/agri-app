@@ -1,5 +1,5 @@
-// js/auth.js
 import { supabase } from "./supabaseClient.js";
+import { initMap } from "./app.js";
 
 const authContainer = document.getElementById("auth-container");
 const appContainer = document.getElementById("app");
@@ -9,7 +9,6 @@ const passwordInput = document.getElementById("password");
 const authMessage = document.getElementById("auth-message");
 const logoutBtn = document.getElementById("logout-btn");
 
-// ----------------- CADASTRO -----------------
 async function signUp(email, password) {
   authMessage.innerText = "Criando conta...";
   authMessage.style.color = "black";
@@ -26,7 +25,6 @@ async function signUp(email, password) {
   authMessage.style.color = "green";
 }
 
-// ----------------- LOGIN -----------------
 async function signIn(email, password) {
   authMessage.innerText = "Entrando...";
   authMessage.style.color = "black";
@@ -45,7 +43,6 @@ async function signIn(email, password) {
   showApp();
 }
 
-// ----------------- LOGOUT -----------------
 async function logout() {
   await supabase.auth.signOut();
   authContainer.style.display = "block";
@@ -54,7 +51,6 @@ async function logout() {
 
 logoutBtn.addEventListener("click", logout);
 
-// ----------------- FORMULARIO -----------------
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -69,7 +65,7 @@ loginForm.addEventListener("submit", (e) => {
   }
 });
 
-// ----------------- CONTROLE DE SESSÃO -----------------
+// AUTO LOGIN
 supabase.auth.onAuthStateChange((event, session) => {
   if (session) {
     showApp();
@@ -79,7 +75,5 @@ supabase.auth.onAuthStateChange((event, session) => {
 function showApp() {
   authContainer.style.display = "none";
   appContainer.style.display = "block";
-
-  // Inicializa mapa
-  import("./app.js").then((mod) => mod.initMap());
+  initMap(); // agora funciona sem import dinâmico
 }
