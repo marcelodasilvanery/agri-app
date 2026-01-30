@@ -4,41 +4,27 @@
     <meta charset="UTF-8">
     <title>Agri App - Planejamento de Voo</title>
 
-    <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""
-    />
+    <!-- Leaflet CSS (SEM integrity) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
+    <!-- Seu CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header class="app-header">
+    <div id="topo">
         <h1>🌱 Agri App</h1>
         <p>Sistema de planejamento agrícola</p>
+        <small>Status: Base GIS carregada</small>
+    </div>
 
-        <div class="status">
-            <strong>Status do Sistema</strong><br>
-            ✔ HTML separado<br>
-            ✔ CSS externo<br>
-            ✔ JavaScript externo<br>
-            ✔ Compatível com GitHub Pages<br>
-            <em>Mapa Satélite ativo</em>
-        </div>
-    </header>
-
-    <!-- MAPA -->
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin=""
-    ></script>
+    <!-- Leaflet JS (SEM integrity) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Seu JS -->
     <script src="js/app.js"></script>
+
 </body>
 </html>
