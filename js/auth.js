@@ -11,14 +11,17 @@ const passwordInput = document.getElementById("password");
 const authMessage = document.getElementById("auth-message");
 const logoutBtn = document.getElementById("logout-btn");
 
-// ----------------- FUNÇÃO DE CADASTRO -----------------
+// ================= FUNÇÃO DE CADASTRO =================
 async function signUp(email, password) {
   authMessage.innerText = "Criando conta...";
   authMessage.style.color = "black";
 
+  // Substitua o URL abaixo pelo seu GitHub Pages
+  const redirectURL = "https://seuusuario.github.io/maps-agro-earth/";
+
   const { data, error } = await supabase.auth.signUp(
     { email, password },
-    { redirectTo: window.location.href } // mantém fluxo seguro
+    { redirectTo: redirectURL }
   );
 
   if (error) {
@@ -27,13 +30,12 @@ async function signUp(email, password) {
     return;
   }
 
-  // Mensagem clara sobre confirmação de email
   authMessage.innerText =
     "Conta criada com sucesso! Verifique seu email e confirme antes de logar.";
   authMessage.style.color = "green";
 }
 
-// ----------------- FUNÇÃO DE LOGIN -----------------
+// ================= FUNÇÃO DE LOGIN =================
 async function signIn(email, password) {
   authMessage.innerText = "Entrando...";
   authMessage.style.color = "black";
@@ -57,7 +59,7 @@ async function signIn(email, password) {
   showApp();
 }
 
-// ----------------- FUNÇÃO DE LOGOUT -----------------
+// ================= FUNÇÃO DE LOGOUT =================
 async function logout() {
   await supabase.auth.signOut();
   authContainer.style.display = "block";
@@ -66,7 +68,7 @@ async function logout() {
 
 logoutBtn.addEventListener("click", logout);
 
-// ----------------- EVENTO DO FORMULÁRIO -----------------
+// ================= EVENTO DO FORMULÁRIO =================
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -81,7 +83,7 @@ loginForm.addEventListener("submit", (e) => {
   }
 });
 
-// ----------------- AUTO LOGIN -----------------
+// ================= AUTO LOGIN =================
 supabase.auth.onAuthStateChange((event, session) => {
   if (session) {
     // Usuário logado e confirmado → mostra app
@@ -89,11 +91,11 @@ supabase.auth.onAuthStateChange((event, session) => {
   }
 });
 
-// ----------------- FUNÇÃO PARA MOSTRAR O APP -----------------
+// ================= FUNÇÃO PARA MOSTRAR O APP =================
 function showApp() {
   authContainer.style.display = "none";
   appContainer.style.display = "block";
 
-  // Inicializa mapa (garante que só roda após login)
+  // Inicializa mapa (garante que só roda após login confirmado)
   initMap();
 }
