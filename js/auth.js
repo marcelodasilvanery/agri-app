@@ -41,7 +41,6 @@ async function signIn(email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    // Detecta possível falta de confirmação de email
     if (error.message.includes("Invalid login credentials")) {
       authMessage.innerText =
         "Não foi possível logar: confirme seu email antes de acessar o sistema.";
@@ -59,4 +58,42 @@ async function signIn(email, password) {
 }
 
 // ----------------- FUNÇÃO DE LOGOUT -----------------
-async fu
+async function logout() {
+  await supabase.auth.signOut();
+  authContainer.style.display = "block";
+  appContainer.style.display = "none";
+}
+
+logoutBtn.addEventListener("click", logout);
+
+// ----------------- EVENTO DO FORMULÁRIO -----------------
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  const mode = document.querySelector('input[name="auth-mode"]:checked').value;
+
+  if (mode === "signup") {
+    signUp(email, password);
+  } else {
+    signIn(email, password);
+  }
+});
+
+// ----------------- AUTO LOGIN -----------------
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    // Usuário logado e confirmado → mostra app
+    showApp();
+  }
+});
+
+// ----------------- FUNÇÃO PARA MOSTRAR O APP -----------------
+function showApp() {
+  authContainer.style.display = "none";
+  appContainer.style.display = "block";
+
+  // Inicializa mapa (garante que só roda após login)
+  initMap();
+}
