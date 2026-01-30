@@ -1,26 +1,22 @@
-// PROVA DE VIDA
-console.log("app.js carregado corretamente");
-alert("JS externo executando");
+document.addEventListener("DOMContentLoaded", async () => {
+  const { data } = await supabase.auth.getSession();
+  const session = data.session;
 
-// Inicializa o mapa
-var map = L.map('map').setView([-15.78, -47.93], 6);
+  const authContainer = document.getElementById("auth-container");
+  const appContainer = document.getElementById("app-container");
 
-// Camadas base
-var osm = L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    { attribution: '© OpenStreetMap' }
-);
+  if (session) {
+    authContainer.style.display = "none";
+    appContainer.style.display = "block";
 
-var esri = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: 'Tiles © Esri' }
-);
+    console.log("Usuário logado:", session.user.email);
 
-// Adiciona camada padrão
-osm.addTo(map);
+    // FUTURO:
+    // initMap();
+  } else {
+    authContainer.style.display = "block";
+    appContainer.style.display = "none";
 
-// Controle de camadas
-L.control.layers({
-    "OpenStreetMap": osm,
-    "Satélite": esri
-}).addTo(map);
+    console.log("Usuário não autenticado");
+  }
+});
