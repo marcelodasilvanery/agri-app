@@ -5,7 +5,7 @@ export function initMap() {
   if (map) return; // evita reinicializar
 
   map = L.map("map", {
-    center: [-15.7801, -47.9292], // Centro Brasil
+    center: [-15.7801, -47.9292], // Centro do Brasil
     zoom: 5,
   });
 
