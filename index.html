@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Maps Agro Earth</title>
-
-  <!-- RESPONSIVO -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- LEAFLET CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-  <!-- CSS DO PROJETO -->
+  <!-- CSS Projeto -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -21,39 +16,40 @@
   <!-- ================= LOGIN / CADASTRO ================= -->
   <div id="auth-container">
     <h2>🌱 Maps Agro Earth</h2>
-    <p>Acesso ao sistema</p>
-
     <form id="login-form">
-      <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        required
-      />
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Senha"
-        required
-      />
+      <input id="email" type="email" placeholder="Email" required />
+      <input id="password" type="password" placeholder="Senha" required />
 
       <div class="auth-options">
         <label>
-          <input type="radio" name="auth-mode" value="login" checked />
-          Login
+          <input type="radio" name="auth-mode" value="login" checked /> Login
         </label>
-
         <label>
-          <input type="radio" name="auth-mode" value="signup" />
-          Criar conta
+          <input type="radio" name="auth-mode" value="signup" /> Criar conta
         </label>
       </div>
 
       <button type="submit">Confirmar</button>
-
       <p id="auth-message"></p>
     </form>
   </div>
 
-  <!-- ====
+  <!-- ================= APP ================= -->
+  <div id="app" style="display:none;">
+    <header class="app-header">
+      <h3>🌾 Planejamento de Voo Agrícola</h3>
+      <button id="logout-btn">Sair</button>
+    </header>
+    <div id="map" style="height:calc(100vh - 60px)"></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Supabase + JS do projeto -->
+  <script type="module" src="js/supabaseClient.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+</body>
+</html>
