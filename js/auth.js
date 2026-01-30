@@ -1,66 +1,66 @@
 // js/auth.js
 import { supabase } from "./supabaseClient.js";
 
-// ELEMENTOS DA TELA
+const authContainer = document.getElementById("auth-container");
+const appContainer = document.getElementById("app");
 const loginForm = document.getElementById("login-form");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
-const messageBox = document.getElementById("auth-message");
+const authMessage = document.getElementById("auth-message");
+const logoutBtn = document.getElementById("logout-btn");
 
-// CADASTRO
+// ----------------- CADASTRO -----------------
 async function signUp(email, password) {
-  messageBox.innerText = "Criando conta...";
-  messageBox.style.color = "black";
+  authMessage.innerText = "Criando conta...";
+  authMessage.style.color = "black";
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    messageBox.innerText = error.message;
-    messageBox.style.color = "red";
+    authMessage.innerText = "Erro: " + error.message;
+    authMessage.style.color = "red";
     return;
   }
 
-  messageBox.innerText =
-    "Conta criada com sucesso! Verifique seu e-mail se necessário.";
-  messageBox.style.color = "green";
+  authMessage.innerText = "Conta criada com sucesso! Faça login.";
+  authMessage.style.color = "green";
 }
 
-// LOGIN
+// ----------------- LOGIN -----------------
 async function signIn(email, password) {
-  messageBox.innerText = "Entrando...";
-  messageBox.style.color = "black";
+  authMessage.innerText = "Entrando...";
+  authMessage.style.color = "black";
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    messageBox.innerText = error.message;
-    messageBox.style.color = "red";
+    authMessage.innerText = "Erro: " + error.message;
+    authMessage.style.color = "red";
     return;
   }
 
-  messageBox.innerText = "Login realizado!";
-  messageBox.style.color = "green";
+  authMessage.innerText = "Login realizado!";
+  authMessage.style.color = "green";
 
-  // Esconde login e mostra app
-  document.getElementById("auth-container").style.display = "none";
-  document.getElementById("app").style.display = "block";
+  showApp();
 }
 
-// EVENTO DO FORMULÁRIO
+// ----------------- LOGOUT -----------------
+async function logout() {
+  await supabase.auth.signOut();
+  authContainer.style.display = "block";
+  appContainer.style.display = "none";
+}
+
+logoutBtn.addEventListener("click", logout);
+
+// ----------------- FORMULARIO -----------------
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = emailInput.value;
   const password = passwordInput.value;
-  const mode = document.querySelector(
-    'input[name="auth-mode"]:checked'
-  ).value;
+  const mode = document.querySelector('input[name="auth-mode"]:checked').value;
 
   if (mode === "signup") {
     signUp(email, password);
@@ -69,10 +69,17 @@ loginForm.addEventListener("submit", (e) => {
   }
 });
 
-// AUTO LOGIN
+// ----------------- CONTROLE DE SESSÃO -----------------
 supabase.auth.onAuthStateChange((event, session) => {
   if (session) {
-    document.getElementById("auth-container").style.display = "none";
-    document.getElementById("app").style.display = "block";
+    showApp();
   }
 });
+
+function showApp() {
+  authContainer.style.display = "none";
+  appContainer.style.display = "block";
+
+  // Inicializa mapa
+  import("./app.js").then((mod) => mod.initMap());
+}
