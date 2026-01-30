@@ -1,55 +1,66 @@
-let map;
+async function signUp() {
+  const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const { data } = await supabase.auth.getSession();
-  const session = data.session;
+  const msg = document.getElementById("auth-msg");
+  msg.innerText = "Criando conta...";
 
-  const authContainer = document.getElementById("auth-container");
-  const appContainer = document.getElementById("app-container");
+  // 1. Criar usuário no Auth
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: senha
+  });
 
-  if (session) {
-    authContainer.style.display = "none";
-    appContainer.style.display = "block";
-
-    initMap();
-  } else {
-    authContainer.style.display = "block";
-    appContainer.style.display = "none";
+  if (error) {
+    msg.innerText = "Erro no cadastro: " + error.message;
+    return;
   }
-});
 
-function initMap() {
-  if (map) return;
+  const user = data.user;
 
-  map = L.map("map", {
-    center: [-15.7801, -47.9292], // Brasil (centro inicial)
-    zoom: 5,
-    zoomControl: true
+  if (!user) {
+    msg.innerText = "Erro inesperado ao criar usuário.";
+    return;
+  }
+
+  // 2. Criar perfil
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .insert({
+      id: user.id,
+      nome: nome
+    });
+
+  if (profileError) {
+    msg.innerText =
+      "Usuário criado, mas erro ao salvar perfil: " + profileError.message;
+    return;
+  }
+
+  msg.innerText = "Conta criada com sucesso! Agora faça login.";
+}
+
+async function signIn() {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+  const msg = document.getElementById("auth-msg");
+
+  msg.innerText = "Entrando...";
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: senha
   });
 
-  // OpenStreetMap
-  const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution: "© OpenStreetMap"
-  });
+  if (error) {
+    msg.innerText = "Erro no login: " + error.message;
+  } else {
+    location.reload();
+  }
+}
 
-  // ESRI Satellite
-  const esriSat = L.tileLayer(
-    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    {
-      maxZoom: 19,
-      attribution: "© Esri"
-    }
-  );
-
-  // Adiciona satélite por padrão
-  esriSat.addTo(map);
-
-  // Controle de camadas
-  const baseMaps = {
-    "Satélite (ESRI)": esriSat,
-    "Mapa (OSM)": osm
-  };
-
-  L.control.layers(baseMaps, null, { position: "topright" }).addTo(map);
+async function logout() {
+  await supabase.auth.signOut();
+  location.reload();
 }
