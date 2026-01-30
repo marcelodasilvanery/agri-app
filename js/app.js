@@ -1,46 +1,26 @@
-/***************************************************
- * FASE 1 - BASE GIS
- ***************************************************/
+console.log("App JS carregado com sucesso");
 
-let map;
-let baseLayers = {};
+// Inicializa o mapa
+var map = L.map('map').setView([-15.78, -47.93], 6);
 
-function initMap() {
+// OpenStreetMap
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+});
 
-    const initialCenter = [-15.78, -47.93]; // Brasil
-    const initialZoom = 6;
+// ESRI Satélite
+var esri = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+        attribution: 'Tiles © Esri'
+    }
+);
 
-    map = L.map('map', {
-        center: initialCenter,
-        zoom: initialZoom,
-        minZoom: 3,
-        maxZoom: 22
-    });
+// Camada padrão
+osm.addTo(map);
 
-    const osm = L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-            attribution: '&copy; OpenStreetMap'
-        }
-    );
-
-    const esri = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        {
-            attribution: 'Tiles &copy; Esri'
-        }
-    );
-
-    baseLayers = {
-        "OpenStreetMap": osm,
-        "Satélite (ESRI)": esri
-    };
-
-    osm.addTo(map);
-
-    L.control.layers(baseLayers, {}, {
-        collapsed: false
-    }).addTo(map);
-}
-
-document.addEventListener('DOMContentLoaded', initMap);
+// Controle de camadas
+L.control.layers({
+    "OpenStreetMap": osm,
+    "Satélite": esri
+}).addTo(map);
