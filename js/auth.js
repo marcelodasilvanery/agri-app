@@ -16,8 +16,8 @@ async function signUp(email, password) {
   authMessage.innerText = "Criando conta...";
   authMessage.style.color = "black";
 
-  // Substitua o URL abaixo pelo seu GitHub Pages
-  const redirectURL = "https://seuusuario.github.io/maps-agro-earth/";
+  // URL pública do GitHub Pages do seu projeto
+  const redirectURL = "https://marcelodasilvanery.github.io/agri-app/";
 
   const { data, error } = await supabase.auth.signUp(
     { email, password },
@@ -30,6 +30,7 @@ async function signUp(email, password) {
     return;
   }
 
+  // Mensagem clara sobre confirmação de email
   authMessage.innerText =
     "Conta criada com sucesso! Verifique seu email e confirme antes de logar.";
   authMessage.style.color = "green";
@@ -96,6 +97,6 @@ function showApp() {
   authContainer.style.display = "none";
   appContainer.style.display = "block";
 
-  // Inicializa mapa (garante que só roda após login confirmado)
+  // Inicializa mapa (garante que só roda após login)
   initMap();
 }
