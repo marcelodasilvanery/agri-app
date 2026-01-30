@@ -1,41 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Agri App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>Planejamento de Voo - Drone Agrícola</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css" />
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-o9N1j7kP6+YwOB1p5MNDoAuCEr0aKBslZx2drXc+4Io="
+        crossorigin=""
+    />
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header class="topo">
-  <h1>🌱 Agri App</h1>
-  <p>Sistema de planejamento agrícola</p>
-</header>
+    <!-- Container do Mapa -->
+    <div id="map"></div>
 
-<main class="conteudo">
-  <h2>Status do Sistema</h2>
-  <p>Estrutura organizada com sucesso.</p>
+    <!-- Leaflet JS -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-oEnbYJv+gG9vDOMkMt2rt7NmQXn0xF4p3x+Z5xRjCyk="
+        crossorigin=""
+    ></script>
 
-  <ul>
-    <li>✔ HTML separado</li>
-    <li>✔ CSS externo</li>
-    <li>✔ JavaScript externo</li>
-    <li>✔ Compatível com GitHub Pages</li>
-  </ul>
-
-  <p class="proximo">Próximo passo: mapa satélite + ortomosaico.</p>
-</main>
-
-<footer class="rodape">
-  Agri App © 2026
-</footer>
-
-<!-- JS -->
-<script src="js/app.js"></script>
-
+    <script src="js/app.js"></script>
 </body>
 </html>
