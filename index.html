@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>Maps Agro Earth</title>
+
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Leaflet CSS (SEM integrity) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -25,7 +32,7 @@
     <p id="auth-msg"></p>
   </div>
 
-  <!-- APP (COMEÇA ESCONDIDO) -->
+  <!-- APP -->
   <div id="app-container" style="display:none;">
     <header>
       <h2>🌍 Sistema de Planejamento Agrícola</h2>
@@ -33,19 +40,15 @@
     </header>
 
     <main>
-      <p>Status do Sistema</p>
-      <ul>
-        <li>✔ Usuário autenticado</li>
-        <li>✔ Sessão ativa</li>
-        <li>🔜 Mapa satélite</li>
-      </ul>
-
-      <!-- AQUI depois entra o mapa -->
-      <div id="map" style="height:400px;"></div>
+      <!-- MAPA -->
+      <div id="map"></div>
     </main>
   </div>
 
-  <!-- JS (ORDEM IMPORTANTE) -->
+  <!-- Leaflet JS (SEM integrity) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- JS do projeto -->
   <script src="js/supabaseClient.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
